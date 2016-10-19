@@ -1,0 +1,28 @@
+<div layout="row" layout-align="center">
+
+    <div flex="50" layout-align="center center">
+        <md-card flex layout-padding>
+            <h3>Bem-Vindo!<br>Login usando email e senha.</h3>
+            <md-divider></md-divider>
+            <md-content layout-padding>
+                <form name="myForm" ng-submit="vm.login(email, password)">
+                    <div layout="column" flex="100">
+                        <md-input-container flex="50">
+                            <input name="email" ng-model="email" type="email" placeholder="Email" required
+                                   md-auto-focus/>
+                        </md-input-container>
+                        <md-input-container flex="50">
+                            <input name="password" ng-model="password" type="password" placeholder="Password" required/>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" layout-align="center center">
+                        <md-button flex="100" type="Submit" name="loginButton" ng-keypress="vm.login(email, password)"
+                                   ng-show="myForm.$valid">Entrar
+                        </md-button>
+                    </div>
+                </form>
+            </md-content>
+        </md-card>
+    </div>
+
+</div>

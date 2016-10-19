@@ -1,0 +1,26 @@
+<md-dialog aria-label="Mango (Fruit)" style="min-width: 50%;">
+    <form name="myForm" ng-cloak ng-submit="vm.aplicar()">
+        <md-toolbar style="background-color: #2ebaae;">
+            <div class="md-toolbar-tools">
+                <h2 style="color:rgba(255,255,255,0.87);">{{vm.title}}</h2>
+                <span flex></span>
+            </div>
+        </md-toolbar>
+
+        <div layout="row" class="md-dialog-content">
+            <md-input-container flex>
+                <label>Nome da disciplina</label>
+                <input name="disciplina" ng-model="vm.entity.nome" type="text" md-auto-focus required/>
+            </md-input-container>
+        </div>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="vm.cancel()">
+                Cancelar
+            </md-button>
+            <md-button type="Submit" name="save" ng-keypress="vm.aplicar()"
+                       ng-disabled="!myForm.$valid">Aplicar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

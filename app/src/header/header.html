@@ -1,0 +1,21 @@
+<div ng-click="go('/')"   ><img ng-src="../../assets/img/logon.png" id="logon"  ></div>
+<nav class="links" ng-controller="headerSrv">
+  <ul>
+    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])"><a href="#">Usuarios - ADM</a></li>
+    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])"><a href="#">Cursos - ADM</a></li>
+    <li ng-show="hasAnyPermission(['ROLE_ADMIN'])"><a href="#/disciplina">Disciplinas - ADM</a></li>
+    <!--<li ng-show="hasAnyPermission(['ROLE_ADMIN'])"><a href="#/user">Usuarios</a></li>-->
+    <li ng-show="hasAnyPermission(['ROLE_ADMIN', 'ROLE_USER'])"><a href="#/meetings">Reuniões</a></li>
+    <li ng-show="!authDetails.authenticated"><a href="#/register">Cadastre-se</a></li>
+    <li ng-show="!authDetails.authenticated"><a href="#/login">Login</a></li>
+    <li ng-show="authDetails.authenticated"><a href="#/register/info">Conta</a></li>
+    <li ng-show="authDetails.authenticated"><a href="#/" ng-click="logout()">Logout</a></li>
+  </ul>
+</nav>
+<nav class="main">
+  <ul>
+    <li class="menu">
+      <a class="fa-bars" href="#menu">Menu</a>
+    </li>
+  </ul>
+</nav>

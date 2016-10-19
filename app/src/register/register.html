@@ -1,0 +1,69 @@
+<md-card>
+    <div layout-padding>
+        <h1>Dados Gerais</h1>
+        <div layout-padding>
+            <form ng-submit="vm.sendRegister()">
+                <div layout-xs="column" layout-gt-xs="row">
+                    <md-input-container flex-xs="100" flex-gt-xs="50">
+                        <input name="email" ng-model="vm.docente.email" type="email" placeholder="E-mail" required>
+                    </md-input-container>
+                    <md-input-container flex-xs="100" flex-gt-xs="50">
+                        <input name="senha" ng-model="vm.docente.password" type="password" placeholder="Senha" required>
+                    </md-input-container>
+                </div>
+                <div layout-xs="column" layout-gt-xs="row">
+                    <md-input-container flex-xs="100" flex-gt-xs="50" class="md-block">
+                        <input name="nome" ng-model="vm.docente.name" type="text" placeholder="Nome Completo" required>
+                    </md-input-container>
+                    <md-input-container flex-xs="100" flex-gt-xs="50" class="md-block">
+                        <label>Enquadramento Funcional</label>
+                        <md-select ng-model="vm.funcao.name">
+                            <md-option ng-value="funcao.name" ng-repeat="funcao in vm.funcoes">{{funcao.name}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div ng-hide="!vm.show();">
+                    <div layout-xs="column" layout-gt-xs="row">
+                        <md-input-container flex-xs="100" flex-gt-xs="50" class="md-block">
+                            <label>Qual o seu curso?</label>
+                            <md-select ng-model="vm.selectedCurso" ng-required="vm.show();">
+                                <md-option ng-value="curso" ng-repeat="curso in vm.cursos">
+                                    {{curso.nome}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-autocomplete flex ng-required="vm.show();"
+                                         md-input-name="autocompleteField"
+                                         md-input-minlength="2"
+                                         md-input-maxlength="18"
+                                         md-no-cache="vm.noCache"
+                                         md-selected-item="vm.selectedDocente"
+                                         md-search-text="vm.searchText"
+                                         md-items="item in vm.querySearch(vm.searchText)"
+                                         md-item-text="item.name"
+                                         md-require-match
+                                         md-floating-label="Nome do Orientador">
+                            <md-item-template>
+                                <span md-highlight-text="vm.searchText">{{item.name}}</span>
+                            </md-item-template>
+                    </div>
+                    <div layout-xs="column" layout-gt-xs="row">
+                        <md-input-container flex-xs="100" flex-gt-xs="50">
+                            <label>Qual a sua disciplina?</label>
+                            <md-select ng-model="vm.discente.disciplina.id" ng-required="vm.show();">
+                                <md-option ng-value="disciplina.id"
+                                           ng-repeat="disciplina in vm.selectedCurso.disciplinas">
+                                    {{disciplina.nome}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout-xs="column" layout-gt-xs="row" layout-align="center center">
+                    <md-button flex-xs="100" flex-gt-xs="50" ng-click="vm.clearCampos();">Limpar</md-button>
+                    <md-button type="submit" flex-xs="100" flex-gt-xs="50">Enviar</md-button>
+                </div>
+            </form>
+        </div>
+    </div>
+</md-card>

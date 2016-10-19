@@ -1,0 +1,41 @@
+<div id="containerMeetings">
+    <md-card>
+        <div layout-padding>
+            <h2>Reuniões</h2>
+            <md-content layout-padding>
+
+            </md-content>
+            <md-divider></md-divider>
+            <table id="table">
+                <thead>
+                <tr>
+                    <th><span>Data</span></th>
+                    <th ng-show="vm.permissoes(['ROLE_USER'])"><span>Orientador</span></th>
+                    <th ng-show="vm.permissoes(['ROLE_ADMIN'])"><span>Orientando</span></th>
+                    <th><span>Descrição</span></th>
+                    <th ng-show="vm.permissoes(['ROLE_USER','ROLE_ADMIN'])"></th>
+                    <th ng-show="vm.permissoes(['ROLE_USER'])"></th>
+                    <th ng-show="vm.permissoes(['ROLE_ADMIN'])"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="reuniao in vm.reunioes | orderBy:'time':true">
+                    <td>{{ reuniao.date | date:'dd-MM-yyyy'}}</td>
+                    <td ng-show="!vm.permissoes(['ROLE_ADMIN'])">{{ reuniao.nomeOrientador }}</td>
+                    <td ng-show="vm.permissoes(['ROLE_ADMIN'])">{{ reuniao.nomeOrientando }}</td>
+                    <td>{{ reuniao.descricao }}</td>
+                    <td ng-show="vm.permissoes(['ROLE_USER','ROLE_ADMIN'])">
+                        <a class="button" ng-click="editUser(user)" href="#/meetings/edit">Edit</a>
+                    </td>
+                    <td ng-show="vm.permissoes(['ROLE_USER'])">
+                        <a class="button" ng-click="deleteUser(user)">Delete</a>
+                    </td>
+                    <td ng-show="vm.permissoes(['ROLE_ADMIN']) && !reuniao.validated">
+                        <a class="button" ng-click="vm.validar(reuniao)">Validar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </md-card>
+</div>

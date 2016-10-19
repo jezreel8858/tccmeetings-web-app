@@ -1,0 +1,31 @@
+<section>
+  <ul class="actions vertical">
+    <!--<li ng-show="hasAnyPermission(['ROLE_ADMIN'])"><a href="#/user" class="button big fit">Usuarios</a></li>-->
+    <li ng-show="hasAnyPermission(['ROLE_ADMIN', 'ROLE_USER'])"><a href="#/meetings" class="button big fit">Reuniões</a></li>
+    <li ng-show="hasAnyPermission(['ROLE_ADMIN', 'ROLE_USER'])"><a href="#/chat" class="button big fit">Chat</a></li>
+      <li ng-show="authDetails.authenticated"><a href="#/register/info" class="button big fit">Conta</a></li>
+    <li ng-show="!authDetails.authenticated"><a href="#/register" class="button big fit">Cadastre-se</a></li>
+    <li ng-show="!authDetails.authenticated"><a href="#/login" class="button big fit">Login</a></li>
+    <li ng-show="authDetails.authenticated"><a ng-click="logout()" href="#/" class="button big fit">Logout</a></li>
+  </ul>
+</section>
+
+<!--<ul class="links">-->
+  <!--<li ng-show="hasAnyPermission(['ROLE_ADMIN', 'ROLE_USER'])">-->
+    <!--<a href="#/packagee">-->
+        <!--<h3>Packages</h3>-->
+        <!--<p>List of packages.</p>-->
+    <!--</a>-->
+<!--</li>-->
+    <!--<li ng-show="hasAnyPermission(['ROLE_ADMIN'])">-->
+        <!--<a href="#/user">-->
+            <!--<h3>Users</h3>-->
+            <!--<p>Users of the system.</p>-->
+        <!--</a>-->
+    <!--</li>-->
+    <!--<li ng-show="hasAnyPermission(['ROLE_ADMIN', 'ROLE_USER'])"><a href="#/meetings"><h3>Reuniões</h3><p>Acesse suas reuniões.</p></a></li>-->
+    <!--<li ng-show="hasAnyPermission(['ROLE_ADMIN', 'ROLE_USER'])"><a href="#/chat">Chat</a></li>-->
+    <!--<li ng-show="!authDetails.authenticated"><a href="#/register">Cadastre-se</a></li>-->
+    <!--<li ng-show="!authDetails.authenticated"><a href="#/login">Login</a></li>-->
+    <!--<li ng-show="authDetails.authenticated"><a ng-click="logout()" href="#/">Logout</a></li>-->
+<!--</ul>-->
