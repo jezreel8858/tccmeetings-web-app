@@ -1,41 +1,106 @@
-<div id="containerMeetings">
-    <md-card>
-        <div layout-padding>
-            <h2>Reuniões</h2>
-            <md-content layout-padding>
+<!--<div id="containerMeetings">-->
+<!--<md-card>-->
+<!--<div layout-padding>-->
+<!--<h2>Reuniões</h2>-->
+<!--<md-content layout-padding>-->
 
-            </md-content>
+<!--</md-content>-->
+<!--<md-divider></md-divider>-->
+<!--<table id="table">-->
+<!--<thead>-->
+<!--<tr>-->
+<!--<th><span>Data</span></th>-->
+<!--<th ng-if="vm.permissoes(['ROLE_DISCENTE'])"><span>Orientador</span></th>-->
+<!--<th ng-if="vm.permissoes(['ROLE_DOCENTE'])"><span>Orientando</span></th>-->
+<!--<th><span>Descrição</span></th>-->
+<!--<th ng-if="vm.permissoes(['ROLE_USER','ROLE_ADMIN'])"></th>-->
+<!--<th ng-if="vm.permissoes(['ROLE_USER'])"></th>-->
+<!--<th ng-if="vm.permissoes(['ROLE_ADMIN'])"></th>-->
+<!--</tr>-->
+<!--</thead>-->
+<!--<tbody>-->
+<!--<tr ng-repeat="reuniao in vm.reunioes | orderBy:'time':true">-->
+<!--<td>{{ reuniao.date | date:'dd-MM-yyyy'}}</td>-->
+<!--<td ng-if="!vm.permissoes(['ROLE_DISCENTE'])">{{ reuniao.nomeOrientador }}</td>-->
+<!--<td ng-if="vm.permissoes(['ROLE_DOCENTE'])">{{ reuniao.nomeOrientando }}</td>-->
+<!--<td>{{ reuniao.descricao }}</td>-->
+<!--<td ng-if="vm.permissoes(['ROLE_USER','ROLE_ADMIN'])">-->
+<!--<a class="button" ng-click="editUser(user)" href="#/meetings/edit">Edit</a>-->
+<!--</td>-->
+<!--<td ng-if="vm.permissoes(['ROLE_USER'])">-->
+<!--<a class="button" ng-click="deleteUser(user)">Delete</a>-->
+<!--</td>-->
+<!--<td ng-if="vm.permissoes(['ROLE_ADMIN']) && !reuniao.validated">-->
+<!--<a class="button" ng-click="vm.validar(reuniao)">Validar</a>-->
+<!--</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+<!--</div>-->
+<!--</md-card>-->
+<!--</div>-->
+
+<md-card layout-margin>
+    <div layout-padding>
+        <h2>Reuniões</h2>
+        <div>
+            <div layout="row" flex>
+                <md-input-container flex-gt-xs="15" flex-xs="25">
+                    <label>Filtro</label>
+                    <ng-md-icon icon="filter_list" style="fill:#6C6C6C;" size="32"
+                                ng-click="vm.filterVisible();"></ng-md-icon>
+                </md-input-container>
+                <md-input-container flex-gt-xs="15" flex-xs="25">
+                    <label>Add</label>
+                    <ng-md-icon icon="add" style="fill:#6C6C6C;" size="32"
+                                ng-click="vm.showForm('Cadastrar Reunião');"></ng-md-icon>
+                </md-input-container>
+                <md-input-container flex="15">
+                    <md-select name="filterColumn" ng-model="vm.filterColumn" ng-if="vm.activeFilter">
+                        <md-option ng-value="label.displayName" ng-repeat="(index,label) in vm.columnDefs">
+                            {{label.displayName}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container flex="25" flex-offset="5" ng-show="vm.filterColumn !== 'Todos'">
+                    <input flex type="text" ng-model="vm.filterCampo" ng-keyup="vm.listar();">
+                </md-input-container>
+                <md-input-container ng-show="vm.filterColumn !== 'Todos'">
+                    <ng-md-icon flex="5" icon="close" style="fill:#6C6C6C;" size="32"
+                                ng-click="vm.filterVisible();vm.filterColumn='Todos'"></ng-md-icon>
+                </md-input-container>
+            </div>
             <md-divider></md-divider>
-            <table id="table">
-                <thead>
-                <tr>
-                    <th><span>Data</span></th>
-                    <th ng-show="vm.permissoes(['ROLE_USER'])"><span>Orientador</span></th>
-                    <th ng-show="vm.permissoes(['ROLE_ADMIN'])"><span>Orientando</span></th>
-                    <th><span>Descrição</span></th>
-                    <th ng-show="vm.permissoes(['ROLE_USER','ROLE_ADMIN'])"></th>
-                    <th ng-show="vm.permissoes(['ROLE_USER'])"></th>
-                    <th ng-show="vm.permissoes(['ROLE_ADMIN'])"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="reuniao in vm.reunioes | orderBy:'time':true">
-                    <td>{{ reuniao.date | date:'dd-MM-yyyy'}}</td>
-                    <td ng-show="!vm.permissoes(['ROLE_ADMIN'])">{{ reuniao.nomeOrientador }}</td>
-                    <td ng-show="vm.permissoes(['ROLE_ADMIN'])">{{ reuniao.nomeOrientando }}</td>
-                    <td>{{ reuniao.descricao }}</td>
-                    <td ng-show="vm.permissoes(['ROLE_USER','ROLE_ADMIN'])">
-                        <a class="button" ng-click="editUser(user)" href="#/meetings/edit">Edit</a>
-                    </td>
-                    <td ng-show="vm.permissoes(['ROLE_USER'])">
-                        <a class="button" ng-click="deleteUser(user)">Delete</a>
-                    </td>
-                    <td ng-show="vm.permissoes(['ROLE_ADMIN']) && !reuniao.validated">
-                        <a class="button" ng-click="vm.validar(reuniao)">Validar</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
         </div>
-    </md-card>
-</div>
+        <md-card>
+            <div layout-padding>
+                <table id="table">
+                    <thead>
+                    <tr>
+                        <th style="font-weight: bold;">#</th>
+                        <th ng-show="vm.permissao(['ROLE_DOCENTE','ROLE_DISCENTE'])"><span>Data</span></th>
+                        <th>Editar</th>
+                        <th>Deletar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="disciplina in vm.disciplinas | orderBy: 'nome'">
+                        <td style="font-weight: bold;">{{$index + 1}}</td>
+                        <td>{{ disciplina.nome }}</td>
+
+                        <td style="width: 8%;" ng-show="vm.permissao(['ROLE_DOCENTE'])">
+                            <ng-md-icon icon="mode_edit" style="fill:#6C6C6C" size="32"
+                                        ng-click="vm.editDis(disciplina);vm.showForm('Editar Reunião');"></ng-md-icon>
+                        </td>
+                        <td style="width: 8%;" ng-show="vm.permissao(['ROLE_DOCENTE'])">
+                            <ng-md-icon icon="delete" style="fill:#6C6C6C"
+                                        ng-click="vm.deletar(disciplina);"></ng-md-icon>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </md-card>
+    </div>
+</md-card>

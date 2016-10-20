@@ -62,7 +62,7 @@ angular.module('tccmeetings', ['ngMaterial', 'ngMdIcons', 'ngMaterialDatePicker'
                 controllerAs: 'vm'
             })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/login'
             });
     })
     .config(function ($httpProvider) {

@@ -6,61 +6,166 @@
     angular.module('tccmeetings')
         .controller('MeetingsCtrl', MeetingsCtrl);
 
-    MeetingsCtrl.$inject = ['$mdDialog', '$rootScope'];
-    function MeetingsCtrl($mdDialog, $rootScope) {
+    MeetingsCtrl.$inject = ['MeetingsSrv', '$mdDialog', 'SessionSrv', '$rootScope', 'ngNotify'];
+    function MeetingsCtrl(MeetingsSrv, $mdDialog, SessionSrv, $rootScope, ngNotify) {
 
         var vm = this;
 
+        vm.entity = {};
+        vm.reunioes = [];
 
+        // Filter Definição
+        vm.filterColumn = 'Todos';
+        vm.filterCampo = '';
+        vm.activeFilter = filterVisible();
 
-        vm.permissoes = permissoes;
-
-
-        function permissoes(authorities) {
-            var isPermission = false;
-
-            $rootScope.authDetails.permissions.forEach(function (permission) {
-
-                authorities.forEach(function (authority) {
-                    if (permission.authority === authority) {
-                        isPermission = true;
-                    }
-                });
-            });
-            return isPermission;
-        };
-
-
-        vm.reunioes = [
+        vm.columnDefs = [
             {
-                validated: false,
-                date: new Date(),
-                nomeOrientador: 'Lisieux Marie',
-                nomeOrientando: 'Jezreel Lau',
-                descricao: 'Decidimos refencial Teórico do trabalho.'
+                displayName: 'Todos'
+            },
+            {
+                displayName: 'Data'
             }
         ];
+        vm.selectColumnDefs = {};
 
 
-        vm.showConfirm = function (ev) {
-            // Appending dialog to document.body to cover sidenav in docs app
-            var confirm = $mdDialog.confirm()
-                .title('Deseja realizar essa operação?')
-                .textContent('')
-                .ariaLabel('Lucky day')
-                .targetEvent(ev)
-                .ok('Confirmar!')
-                .cancel('Cancelar');
+        // Controle do filter
+        vm.filterVisible = filterVisible;
 
-            $mdDialog.show(confirm).then(function () {
-                $scope.status = 'You decided to get rid of your debt.';
-            }, function () {
-                $scope.status = 'You decided to keep your debt.';
+        function filterVisible() {
+            if(vm.activeFilter){
+                vm.activeFilter = false;
+            } else {
+                vm.activeFilter = true;
+            }
+        }
+
+        // Permissoes Service
+        vm.permissao = permissao;
+
+        function permissao(authorities) {
+            return SessionSrv.permissao(authorities);
+        };
+
+        // Reuniao Service Funções
+        vm.listar = listar;
+        vm.deletar = deletar;
+        vm.buscarFilter = buscarFilter;
+
+
+        // Disciplina Funções Locais
+        vm.editReuniao = editReuniao;
+        vm.renewEntity = renewEntity;
+
+        function listar() {
+            if(vm.filterColumn == 'Todos' || vm.filterCampo == ''){
+                vm.renewEntity();
+                MeetingsSrv.buscarAll(function (listReunioes) {
+                    vm.reunioes = listReunioes;
+                });
+            } else {
+                buscarFilter();
+            }
+
+        };
+
+        function deletar(disciplina) {
+            if (disciplina.id != '') {
+                MeetingsSrv.deletar(reuniao, function () {
+                    listar();
+                    ngNotify.set('Reuniao removida com Sucesso.', 'success');
+                });
+            }
+        };
+
+        function buscarFilter() {
+            var urlFilter = "/filter/" + vm.filterColumn + "/" + vm.filterCampo;
+            MeetingsSrv.buscarFilter(urlFilter,function (listReunioes) {
+                vm.reunioes = listReunioes;
             });
         };
 
+        function editReuniao(reuniao) {
+            vm.entity = angular.copy(reuniao);
+        };
 
-        // md-data-table
+        function renewEntity() {
+            vm.entity = undefined;
+        };
+
+        listar();
+
+
+
+        //Modal Material Angular
+        vm.showForm = showForm;
+
+        function showForm(title) {
+            $mdDialog.show({
+                controller: DialogController,
+                controllerAs: 'vm',
+                bindToController: true,
+                templateUrl: 'src/meetings/meetings.form.html',
+                clickOutsideToClose: true,
+                locals: {
+                    entity: angular.copy(vm.entity),
+                    title: title,
+                    MeetingsSrv: MeetingsSrv
+                }
+            })
+                .then(function (answer) {
+                    vm.listar();
+                }, function () {
+                    vm.renewEntity();
+                });
+        };
+
+        //Controller Modal
+        function DialogController($mdDialog, entity, title, MeetingsSrv) {
+            var vm = this;
+
+            vm.title = title;
+
+            vm.entity = entity;
+
+            vm.aplicar = aplicar;
+            vm.cancel = cancel;
+            vm.salvar = salvar;
+            vm.editar = editar;
+
+
+            function aplicar() {
+                if (title === 'Cadastrar Reunião') {
+                    vm.salvar();
+                    $mdDialog.hide();
+                } else if (title === 'Editar Reunião') {
+                    vm.editar();
+                    $mdDialog.hide();
+                }
+            };
+            function cancel() {
+                $mdDialog.cancel();
+            };
+
+            function salvar() {
+                if (vm.entity != undefined) {
+                    DisciplinaSrv.salvar(vm.entity, function (response) {
+                        ngNotify.set('Disciplina \'' + vm.entity.nome + '\' cadastrada com Sucesso.', 'success');
+                    });
+                }
+            };
+
+            function editar() {
+                if (vm.entity != undefined) {
+                    DisciplinaSrv.editar(vm.entity, function (response) {
+                        ngNotify.set('Disciplina \'' + vm.entity.nome + '\' alterada com Sucesso.', 'success');
+                    });
+                }
+            };
+
+
+        }
 
 
     }

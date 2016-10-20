@@ -13,12 +13,14 @@
                 </div>
                 <div layout-xs="column" layout-gt-xs="row">
                     <md-input-container flex-xs="100" flex-gt-xs="50" class="md-block">
-                        <input name="nome" ng-model="vm.docente.name" type="text" placeholder="Nome Completo" required>
+                        <input name="nome" ng-model="vm.docente.name" type="text" placeholder="Nome Completo"
+                               ng-pattern="/[A-Za-z]{3,12}[ ][A-Za-z]{3,50}$/" required>
                     </md-input-container>
                     <md-input-container flex-xs="100" flex-gt-xs="50" class="md-block">
                         <label>Enquadramento Funcional</label>
                         <md-select ng-model="vm.funcao.name">
-                            <md-option ng-value="funcao.name" ng-repeat="funcao in vm.funcoes">{{funcao.name}}</md-option>
+                            <md-option ng-value="funcao.name" ng-repeat="funcao in vm.funcoes">{{funcao.name}}
+                            </md-option>
                         </md-select>
                     </md-input-container>
                 </div>
@@ -34,18 +36,20 @@
                         </md-input-container>
                         <md-autocomplete flex ng-required="vm.show();"
                                          md-input-name="autocompleteField"
-                                         md-input-minlength="2"
-                                         md-input-maxlength="18"
+                                         md-input-minlength="0"
                                          md-no-cache="vm.noCache"
                                          md-selected-item="vm.selectedDocente"
+                                         md-search-text-change="vm.searchTextChange(vm.searchText)"
                                          md-search-text="vm.searchText"
+                                         md-selected-item-change="ctrl.selectedItemChange(item)"
                                          md-items="item in vm.querySearch(vm.searchText)"
                                          md-item-text="item.name"
-                                         md-require-match
+                                         md-min-length="0"
                                          md-floating-label="Nome do Orientador">
                             <md-item-template>
-                                <span md-highlight-text="vm.searchText">{{item.name}}</span>
+                                <span md-highlight-text="vm.searchText" md-highlight-flags="^i">{{item.name}}</span>
                             </md-item-template>
+                        </md-autocomplete>
                     </div>
                     <div layout-xs="column" layout-gt-xs="row">
                         <md-input-container flex-xs="100" flex-gt-xs="50">

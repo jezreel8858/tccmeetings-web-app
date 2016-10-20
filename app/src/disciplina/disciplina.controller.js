@@ -8,7 +8,7 @@
     angular.module('tccmeetings')
         .controller('DisciplinaCtrl', DisciplinaCtrl);
 
-    DisciplinaCtrl.$inject = ['DisciplinaSrv', 'SessionSrv', 'ngNotify', '$mdDialog'];
+    DisciplinaCtrl.$inject = ['MeetingsSrv', 'SessionSrv', 'ngNotify', '$mdDialog'];
     function DisciplinaCtrl(DisciplinaSrv, SessionSrv, ngNotify, $mdDialog) {
 
         var vm = this;

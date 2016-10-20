@@ -4,8 +4,8 @@
     angular.module('tccmeetings')
         .controller('RegisterCtrl', RegisterCtrl);
 
-    RegisterCtrl.$inject = ['$q', '$timeout', 'ngNotify', 'DiscenteSrv', 'DocenteSrv', 'CursoSrv', 'SERVICE_PATH'];
-    function RegisterCtrl($q, $timeout, ngNotify, DiscenteSrv, DocenteSrv, CursoSrv, SERVICE_PATH) {
+    RegisterCtrl.$inject = ['$location', '$q', '$timeout', 'ngNotify', 'DiscenteSrv', 'DocenteSrv', 'CursoSrv', 'SERVICE_PATH'];
+    function RegisterCtrl($location, $q, $timeout, ngNotify, DiscenteSrv, DocenteSrv, CursoSrv, SERVICE_PATH) {
         var vm = this;
 
         // Declaração de Usuarios
@@ -26,7 +26,7 @@
         // Fim
 
         // Declarações de Variaveis
-        vm.funcao = {   name: "Docente" };
+        vm.funcao = { name: "Docente" };
         vm.cursos = [];
         vm.docentes = [];
         vm.selectedCurso = {};
@@ -38,31 +38,15 @@
         // Fim
 
 
-        vm.userClear = {
-            name: '',
-            email: '',
-            password: ''
-        };
-        vm.discenteClear = {
-            name: '',
-            email: '',
-            password: '',
-            curso: {},
-            disciplina: {},
-            docente: {}
-        };
-
-
-
-
-
         ////////////////////////////////////////////////////////////////////////////////////
         // Declarações de todas Funções do Controller
-        vm.sendRegister = sendRegister;
-        vm.show = show;
-        vm.listarCursos = listarCursos;
-        vm.listarDocentes = listarDocentes;
-        vm.querySearch = querySearch;
+        vm.sendRegister         =   sendRegister;
+        vm.show                 =   show;
+        vm.listarCursos         =   listarCursos;
+        vm.listarDocentes       =   listarDocentes;
+        vm.querySearch          =   querySearch;
+        vm.createFilterFor      =   createFilterFor;
+        vm.clearCampos          =   clearCampos;
 
         // Fim
 
@@ -74,6 +58,7 @@
         function sendRegister() {
             if (vm.funcao.name === 'Docente') {
                 DocenteSrv.salvar(vm.docente, function () {
+                    $location.path("/login");
                     ngNotify.set('Cadastro realizado com Sucesso.', 'success');
                 });
             } else if (vm.funcao.name === 'Discente') {
@@ -111,6 +96,24 @@
             });
         }
 
+        function clearCampos() {
+            vm.discente = {
+                name: '',
+                email: '',
+                password: '',
+                curso: {},
+                disciplina: {},
+                docente: {}
+            };
+            vm.docente = {
+                name: '',
+                email: '',
+                password: ''
+            };
+            vm.funcao = {};
+            vm.selectedCurso = '';
+        }
+
         // Carregando as Entidades
         listarCursos();
         listarDocentes();
@@ -120,7 +123,7 @@
         // ******************************
 
         function querySearch(query) {
-            var results = query ? vm.states.filter(createFilterFor(query)) : vm.states;
+            var results = query ? vm.docentes.filter(createFilterFor(query)) : vm.docentes;
             var deferred = $q.defer();
             $timeout(function () {
                 deferred.resolve(results);

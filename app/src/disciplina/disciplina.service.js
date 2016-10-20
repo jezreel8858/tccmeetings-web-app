@@ -4,7 +4,7 @@
 (function (angular) {
     'use strict';
     angular.module('tccmeetings')
-        .service('DisciplinaSrv',DisciplinaSrv);
+        .service('MeetingsSrv',DisciplinaSrv);
 
     DisciplinaSrv.$inject = ['GenericoRestSrv','SERVICE_PATH'];
     function DisciplinaSrv(GenericoRestSrv,SERVICE_PATH){
@@ -41,8 +41,8 @@
             GenericoRestSrv.buscarAll(url,callback);
         }
 
-        function buscarFilter(urlFilter,callback) {
-            GenericoRestSrv.buscarAll(url+urlFilter,callback);
+        function buscarFilter(url,callback) {
+            GenericoRestSrv.buscarAll(url,callback);
         }
 
         function deletar(disciplina,callback){
