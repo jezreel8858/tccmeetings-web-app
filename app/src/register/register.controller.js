@@ -62,12 +62,15 @@
                     ngNotify.set('Cadastro realizado com Sucesso.', 'success');
                 });
             } else if (vm.funcao.name === 'Discente') {
+
                 vm.discente.name = vm.docente.name;
                 vm.discente.email = vm.docente.email;
                 vm.discente.password = vm.docente.password;
                 vm.discente.docente.id = vm.selectedDocente.id;
                 vm.discente.curso.id = vm.selectedCurso.id;
+
                 DiscenteSrv.salvar(vm.discente, function () {
+                    $location.path("/login");
                     ngNotify.set('Cadastro realizado com Sucesso.', 'success');
                 })
             }
