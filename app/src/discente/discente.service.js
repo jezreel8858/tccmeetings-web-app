@@ -42,8 +42,8 @@
             GenericoRestSrv.buscarAll(url+"/findAllAnonymous",callback);
         }
 
-        function buscarAll(callback){
-            GenericoRestSrv.buscarAll(url,callback);
+        function buscarAll(urlRequest,callback){
+            GenericoRestSrv.buscarAll(url+urlRequest,callback);
         }
 
         function buscarFilter(urlFilter,callback) {

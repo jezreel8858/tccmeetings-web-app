@@ -15,12 +15,12 @@
         </div>
 
         <md-dialog-actions layout="row">
-            <md-button ng-click="vm.cancel()">
+            <button ng-click="vm.cancel()">
                 Cancelar
-            </md-button>
-            <md-button type="Submit" name="save" ng-keypress="vm.aplicar()"
+            </button>
+            <button flex-offset="5" type="Submit" name="save" ng-keypress="vm.aplicar()"
                        ng-disabled="!myForm.$valid">Aplicar
-            </md-button>
+            </button>
         </md-dialog-actions>
     </form>
 </md-dialog>

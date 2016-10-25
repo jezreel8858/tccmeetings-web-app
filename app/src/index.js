@@ -36,24 +36,14 @@ angular.module('tccmeetings', ['ngMaterial', 'ngMdIcons', 'ngMaterialDatePicker'
                 controller: 'RegisterCtrl',
                 controllerAs: 'vm'
             })
-            .when('/chat', {
-                templateUrl: 'src/chat/chat.html',
-                controller: 'ChatCtrl',
-                controllerAs: 'vm'
-            })
             .when('/meetings', {
                 templateUrl: 'src/meetings/meetings.maintenance.html',
                 controller: 'MeetingsCtrl',
                 controllerAs: 'vm'
             })
-            .when('/meetings/new', {
-                templateUrl: 'src/meetings/meetings.new.html',
-                controller: 'MeetingsCtrl',
-                controllerAs: 'vm'
-            })
-            .when('/meetings/edit', {
-                templateUrl: 'src/meetings/meetings.new.html',
-                controller: 'MeetingsCtrl',
+            .when('/meetings/form', {
+                templateUrl: 'src/meetings/meetings.form.html',
+                controller: 'MeetingsFormCtrl',
                 controllerAs: 'vm'
             })
             .when('/disciplina', {

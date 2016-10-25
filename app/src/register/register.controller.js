@@ -91,7 +91,7 @@
         }
 
         function listarDocentes() {
-            DocenteSrv.buscarAllAnonymous(function (docentes) {
+            DocenteSrv.buscarAll("",function (docentes) {
                 vm.docentes = docentes;
                 angular.forEach(vm.docentes, function (docente) {
                     docente.name = angular.uppercase(docente.name);

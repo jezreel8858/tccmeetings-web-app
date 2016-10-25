@@ -31,7 +31,7 @@
                     callback && callback(response.data);
                 },
                 function errorCallback(response) {
-                    ngNotify.set('Error: ' + response.statusText + '.', 'error');
+                    ngNotify.set('Error: ' + response.headers.Date + '.', 'error');
                 });
         };
     }

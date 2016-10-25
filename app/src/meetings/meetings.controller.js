@@ -6,8 +6,8 @@
     angular.module('tccmeetings')
         .controller('MeetingsCtrl', MeetingsCtrl);
 
-    MeetingsCtrl.$inject = ['MeetingsSrv', '$mdDialog', 'SessionSrv', '$rootScope', 'ngNotify'];
-    function MeetingsCtrl(MeetingsSrv, $mdDialog, SessionSrv, $rootScope, ngNotify) {
+    MeetingsCtrl.$inject = ['MeetingsSrv', 'DocenteSrv', '$mdDialog', 'SessionSrv', '$rootScope', 'ngNotify'];
+    function MeetingsCtrl(MeetingsSrv, DocenteSrv, $mdDialog, SessionSrv, $rootScope, ngNotify) {
 
         var vm = this;
 
@@ -17,7 +17,6 @@
         // Filter Definição
         vm.filterColumn = 'Todos';
         vm.filterCampo = '';
-        vm.activeFilter = filterVisible();
 
         vm.columnDefs = [
             {
@@ -28,18 +27,6 @@
             }
         ];
         vm.selectColumnDefs = {};
-
-
-        // Controle do filter
-        vm.filterVisible = filterVisible;
-
-        function filterVisible() {
-            if(vm.activeFilter){
-                vm.activeFilter = false;
-            } else {
-                vm.activeFilter = true;
-            }
-        }
 
         // Permissoes Service
         vm.permissao = permissao;
@@ -98,7 +85,7 @@
 
 
 
-        //Modal Material Angular
+        //Modal Material Angular Usar para confirmação de edição e remoção
         vm.showForm = showForm;
 
         function showForm(title) {

@@ -1,37 +1,52 @@
-<md-dialog aria-label="Mango (Fruit)" style="min-width: 50%;">
-    <form name="myForm" ng-cloak ng-submit="vm.aplicar()">
-        <md-toolbar style="background-color: #2ebaae;">
-            <div class="md-toolbar-tools">
-                <h2 style="color:rgba(255,255,255,0.87);">{{vm.title}}</h2>
-                <span flex></span>
-            </div>
-        </md-toolbar>
+<md-card layout-padding>
+    <div layout-padding>
+        <h2>Cadastro de Reunião</h2>
+        <div>
+            <form name="myForm" ng-cloak ng-submit="vm.confirm()">
 
-        <div layout="row" class="md-dialog-content">
-            <md-input-container flex>
-                <label>Nome da disciplina</label>
-                <input name="disciplina" ng-model="vm.entity.nome" type="text" md-auto-focus required/>
-            </md-input-container>
+                <div layout="row" class="md-dialog-content">
+                    <md-input-container flex>
+                        <label>Descrição</label>
+                        <input name="reuniao" ng-model="vm.entity.descricao" type="text" md-auto-focus required/>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" class="md-dialog-content">
+                    <md-input-container flex="50">
+                        <input name="dataI" mdc-datetime-picker="" date="true" time="true" type="text"
+                               placeholder="Data inicial" min-date="date" ng-model="vm.entity.dataInicial" class=" md-input"
+                               required>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <input ng-disabled="vm.entity.dataInicial === undefined" name="dataF" mdc-datetime-picker="" date="false" time="true" type="text"
+                               placeholder="Data final" min-date="vm.entity.dataInicial" ng-model="vm.entity.dataFinal" class=" md-input" required=>
+                    </md-input-container>
+                </div>
+                <div ng-if="vm.permissao(['ROLE_DOCENTE']);">
+                    <md-autocomplete flex ng-required="vm.permissao(['ROLE_DOCENTE']);"
+                                     md-input-name="autocompleteField"
+                                     md-input-minlength="0"
+                                     md-no-cache="vm.noCache"
+                                     md-selected-item="vm.selectedDiscente"
+                                     md-search-text-change="vm.searchTextChange(vm.searchText)"
+                                     md-search-text="vm.searchText"
+                                     md-selected-item-change="ctrl.selectedItemChange(item)"
+                                     md-items="item in vm.querySearch(vm.searchText)"
+                                     md-item-text="item.name"
+                                     md-min-length="0"
+                                     md-floating-label="Nome do Orientando">
+                        <md-item-template>
+                            <span md-highlight-text="vm.searchText" md-highlight-flags="^i">{{item.name}}</span>
+                        </md-item-template>
+                    </md-autocomplete>
+                </div>
+                <md-dialog-actions layout="row">
+                    <a class="button" href="#/meetings">Cancelar</a>
+                    <button flex-offset="5" type="Submit" name="save" ng-keypress="vm.confirm()"
+                            ng-disabled="!myForm.$valid">Aplicar
+                    </button>
+                </md-dialog-actions>
+            </form>
         </div>
-
-        <div layout="row" class="md-dialog-content">
-            <md-input-container flex="50">
-                <input  mdc-datetime-picker="" date="true" time="true" type="text" id="datetime"
-                        placeholder="Date" min-date="date" ng-model="dateTime1" class=" md-input" required>
-            </md-input-container>
-            <md-input-container flex="50">
-                <input  mdc-datetime-picker="" date="true" time="true" type="text" id="datetime"
-                        placeholder="Date" min-date="date" ng-model="dateTime2" class=" md-input" required>
-            </md-input-container>
-        </div>
-
-        <md-dialog-actions layout="row">
-            <md-button ng-click="vm.cancel()">
-                Cancelar
-            </md-button>
-            <md-button type="Submit" name="save" ng-keypress="vm.aplicar()"
-                       ng-disabled="!myForm.$valid">Aplicar
-            </md-button>
-        </md-dialog-actions>
-    </form>
-</md-dialog>
+    </div>
+</md-card>

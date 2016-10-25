@@ -40,34 +40,29 @@
 <!--</md-card>-->
 <!--</div>-->
 
-<md-card layout-margin>
+<md-card layout-padding>
     <div layout-padding>
         <h2>Reuniões</h2>
         <div>
             <div layout="row" flex>
-                <md-input-container flex-gt-xs="15" flex-xs="25">
-                    <label>Filtro</label>
-                    <ng-md-icon icon="filter_list" style="fill:#6C6C6C;" size="32"
-                                ng-click="vm.filterVisible();"></ng-md-icon>
-                </md-input-container>
-                <md-input-container flex-gt-xs="15" flex-xs="25">
-                    <label>Add</label>
-                    <ng-md-icon icon="add" style="fill:#6C6C6C;" size="32"
-                                ng-click="vm.showForm('Cadastrar Reunião');"></ng-md-icon>
-                </md-input-container>
-                <md-input-container flex="15">
-                    <md-select name="filterColumn" ng-model="vm.filterColumn" ng-if="vm.activeFilter">
+                <md-input-container flex-gt-xs="20" flex-xs="50" >
+                    <label>Filtrar por </label>
+                    <md-select name="filterColumn" ng-model="vm.filterColumn">
                         <md-option ng-value="label.displayName" ng-repeat="(index,label) in vm.columnDefs">
                             {{label.displayName}}
                         </md-option>
                     </md-select>
                 </md-input-container>
-                <md-input-container flex="25" flex-offset="5" ng-show="vm.filterColumn !== 'Todos'">
-                    <input flex type="text" ng-model="vm.filterCampo" ng-keyup="vm.listar();">
+                <md-input-container flex-gt-xs="30" flex-offset-gt-xs="5" flex-xs="50" ng-show="vm.filterColumn !== 'Todos'">
+                    <input type="text" ng-model="vm.filterCampo" ng-keyup="vm.listar();" ng-required="vm.filterColumn !== 'Todos'">
                 </md-input-container>
                 <md-input-container ng-show="vm.filterColumn !== 'Todos'">
                     <ng-md-icon flex="5" icon="close" style="fill:#6C6C6C;" size="32"
                                 ng-click="vm.filterVisible();vm.filterColumn='Todos'"></ng-md-icon>
+                </md-input-container>
+                <md-input-container flex-gt-xs="10" flex-offset-gt-xs="5" flex-xs="100">
+                    <a class="button" href="#/meetings/form">Cadastrar</a>
+                    <!--<button ng-click="vm.showForm('Cadastrar Reunião');vm.renewEntity();">Cadastrar</button>-->
                 </md-input-container>
             </div>
             <md-divider></md-divider>
@@ -78,24 +73,31 @@
                     <thead>
                     <tr>
                         <th style="font-weight: bold;">#</th>
-                        <th ng-show="vm.permissao(['ROLE_DOCENTE','ROLE_DISCENTE'])"><span>Data</span></th>
-                        <th>Editar</th>
-                        <th>Deletar</th>
+                        <th ng-if="vm.permissao(['ROLE_DOCENTE']);">Autor</th>
+                        <th ng-if="vm.permissao(['ROLE_DOCENTE','ROLE_DISCENTE'])"><span>Descrição</span></th>
+                        <th ng-if="vm.permissao(['ROLE_DOCENTE','ROLE_DISCENTE'])"><span>Data</span></th>
+                        <th ng-if="vm.permissao(['ROLE_DOCENTE'])">Editar</th>
+                        <th ng-if="vm.permissao(['ROLE_DISCENTE']) && !reuniao.validado">Editar</th>
+                        <th ng-show="vm.permissao(['ROLE_DISCENTE','ROLE_DOCENTE']) && !reuniao.validado">Deletar</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="disciplina in vm.disciplinas | orderBy: 'nome'">
+                    <tr ng-repeat="reuniao in vm.reunioes | orderBy: 'dataInicial'">
                         <td style="font-weight: bold;">{{$index + 1}}</td>
-                        <td>{{ disciplina.nome }}</td>
-
-                        <td style="width: 8%;" ng-show="vm.permissao(['ROLE_DOCENTE'])">
-                            <ng-md-icon icon="mode_edit" style="fill:#6C6C6C" size="32"
-                                        ng-click="vm.editDis(disciplina);vm.showForm('Editar Reunião');"></ng-md-icon>
+                        <td ng-if="vm.permissao(['ROLE_DOCENTE']);"></td>
+                        <td>{{ reuniao.descricao }}</td>
+                        <td>{{ reuniao.dataInicial | date:"MM/dd/yyyy 'as' h:mma"}}</td>
+                        <td style="width: 8%;" >
+                            <ng-md-icon icon="mode_edit" style="fill:#6C6C6C" size="32" ng-show="vm.permissao(['ROLE_DISCENTE']) && !reuniao.validado"
+                                        ng-click="vm.editDis(reuniao);vm.showForm('Editar Reunião');"></ng-md-icon>
+                            <ng-md-icon icon="mode_edit" style="fill:#6C6C6C" size="32" ng-show="vm.permissao(['ROLE_DOCENTE']) "
+                                        ng-click="vm.editDis(reuniao);vm.showForm('Editar Reunião');"></ng-md-icon>
                         </td>
-                        <td style="width: 8%;" ng-show="vm.permissao(['ROLE_DOCENTE'])">
-                            <ng-md-icon icon="delete" style="fill:#6C6C6C"
-                                        ng-click="vm.deletar(disciplina);"></ng-md-icon>
-
+                        <td style="width: 8%;" >
+                            <ng-md-icon icon="delete" style="fill:#6C6C6C" ng-show="vm.permissao(['ROLE_DISCENTE']) && !reuniao.validado"
+                                        ng-click="vm.deletar(reuniao);"></ng-md-icon>
+                            <ng-md-icon icon="delete" style="fill:#6C6C6C" ng-show="vm.permissao(['ROLE_DOCENTE'])"
+                                        ng-click="vm.deletar(reuniao);"></ng-md-icon>
                         </td>
                     </tr>
                     </tbody>

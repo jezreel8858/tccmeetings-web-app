@@ -8,7 +8,7 @@
     angular.module('tccmeetings')
         .controller('DisciplinaCtrl', DisciplinaCtrl);
 
-    DisciplinaCtrl.$inject = ['MeetingsSrv', 'SessionSrv', 'ngNotify', '$mdDialog'];
+    DisciplinaCtrl.$inject = ['DisciplinaSrv', 'SessionSrv', 'ngNotify', '$mdDialog'];
     function DisciplinaCtrl(DisciplinaSrv, SessionSrv, ngNotify, $mdDialog) {
 
         var vm = this;
@@ -18,7 +18,7 @@
         vm.disciplinas = [];
 
         // Filter Definição
-        vm.filterColumn = 'Todos';
+        vm.filterColumn = ' ';
         vm.filterCampo = '';
 
         vm.columnDefs = [
@@ -132,6 +132,7 @@
                     $mdDialog.hide();
                 }
             };
+
             function cancel() {
                 $mdDialog.cancel();
             };

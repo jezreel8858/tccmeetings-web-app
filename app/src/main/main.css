@@ -3349,3 +3349,44 @@ button:hover,
 	box-shadow: inset 0 0 0 1px #6A99CC;
 	color: #6A99CC !important;
 }
+/* usado para padronizar o button do datepicker angular */
+.md-button{
+	-moz-appearance: none !important;
+	-webkit-appearance: none !important;
+	-ms-appearance: none !important;
+	appearance: none !important;
+	background-color: transparent !important;
+	border: 0 !important;
+	color: #3c3b3b !important;
+	cursor: pointer !important;
+	display: inline-block !important;
+	font-family: "Raleway", Helvetica, sans-serif !important;
+	font-size: 0.6em !important;
+	font-weight: 800 !important;
+	height: 4.5em !important;
+	letter-spacing: 0.25em !important;
+	line-height: 4.8125em !important;
+	padding: 0 2.5em !important;
+	white-space: nowrap !important;
+}
+
+.dtp > .dtp-content > .dtp-date-view > header.dtp-header {
+	background-color: #89bec3 !important;
+}
+
+.dtp table.dtp-picker-days tr > td > a.selected {
+	background-color: #8CCCD3 !important;
+}
+
+.dtp div.dtp-date, .dtp div.dtp-time {
+	background-color: #78D3D3 !important;
+}
+.dtp .dtp-hand.on {
+	background-color: #78D3D3 !important;
+}
+.dtp .dtp-picker-time > a.dtp-select-hour.selected {
+	background-color: #8CCCD3 !important;
+}
+.dtp .dtp-actual-meridien a.selected {
+	background-color: #8CCCD3 !important;
+}

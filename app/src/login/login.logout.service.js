@@ -42,7 +42,6 @@
                             };
                             $localStorage.authDetails = $rootScope.authDetails;
                             name = data.name;
-                            console.log(name + ' logando');
                             $location.path('/');
                             ngNotify.set('Boas-vindas ' + data.name + '.', 'success');
 

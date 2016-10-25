@@ -1,20 +1,31 @@
-<md-card>
+<md-card layout-gt-xs="80">
     <div layout-padding>
         <h1>Dados Gerais</h1>
         <div layout-padding>
-            <form ng-submit="vm.sendRegister()">
+            <form name="form" ng-submit="vm.sendRegister()">
                 <div layout-xs="column" layout-gt-xs="row">
                     <md-input-container flex-xs="100" flex-gt-xs="50">
                         <input name="email" ng-model="vm.docente.email" type="email" placeholder="E-mail" required>
+                        <div ng-messages="form.email.$error">
+                            <div ng-message="email">Informe um email válido...</div>
+                            <div ng-message="required">E-mail obrigatório...</div>
+                        </div>
                     </md-input-container>
                     <md-input-container flex-xs="100" flex-gt-xs="50">
-                        <input name="senha" ng-model="vm.docente.password" type="password" placeholder="Senha" required>
+                        <input name="senha" ng-model="vm.docente.password" type="password" placeholder="Senha" ng-minlength="4" required>
+                        <div ng-messages="form.senha.$error">
+                            <div ng-message="minlength">Informe senha com minimo 4 caracteres...</div>
+                        </div>
                     </md-input-container>
                 </div>
                 <div layout-xs="column" layout-gt-xs="row">
                     <md-input-container flex-xs="100" flex-gt-xs="50" class="md-block">
                         <input name="nome" ng-model="vm.docente.name" type="text" placeholder="Nome Completo"
                                ng-pattern="/[A-Za-z]{3,12}[ ][A-Za-z]{3,50}$/" required>
+                        <div ng-messages="form.nome.$error">
+                            <div ng-message="required">Nome obrigatório...</div>
+                            <div ng-message="pattern">Informe nome com o sobre nome...</div>
+                        </div>
                     </md-input-container>
                     <md-input-container flex-xs="100" flex-gt-xs="50" class="md-block">
                         <label>Enquadramento Funcional</label>
@@ -63,9 +74,9 @@
                         </md-input-container>
                     </div>
                 </div>
-                <div layout-xs="column" layout-gt-xs="row" layout-align="center center">
+                <div layout-margin layout-xs="column" layout-gt-xs="row" layout-align="center center">
                     <md-button flex-xs="100" flex-gt-xs="50" ng-click="vm.clearCampos();">Limpar</md-button>
-                    <md-button type="submit" flex-xs="100" flex-gt-xs="50">Enviar</md-button>
+                    <md-button type="submit" flex-xs="100" flex-gt-xs="50" ng-disabled="form.$invalid">Enviar</md-button>
                 </div>
             </form>
         </div>
